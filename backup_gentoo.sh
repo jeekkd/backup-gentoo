@@ -2,7 +2,7 @@
 
 # Written by: https://github.com/turkgrb
 # Website: https://daulton.ca
-# Purpose: To make the backup and restoration of Gentoo systems easier, uses bzipped
+# Purpose: To make the backup and restoration of Gentoo systems easier, uses gunzipped
 # tars and can also handle GRUB installation too.
 # WARNING: BOOT TO SYSTEMRECSUECD TO USE
 
@@ -36,7 +36,7 @@ home_restore_target=
 # Todays date, used in the file name when creating the backup tar
 today_date=$(date +%b_%d_%Y)
 # File name and path for the backup tar
-backup_tar_name="gentoo_backup_$today_date.tar.bz2"
+backup_tar_name="gentoo_backup_$today_date.tar.gz"
 ###############################
 
 # Credits to original author for this function as described below:	
@@ -139,7 +139,7 @@ case "$option" in
 
 	echo "Creating backup tar.. may take a while, please wait"
 	cd /mnt/gentoo
-	tar --xattrs -cvpf /mnt/backup/$backup_folder/$backup_tar_name --directory=/mnt/gentoo --exclude=proc --exclude=sys --exclude=dev/pts . 
+	tar --xattrs -czpvf /mnt/backup/$backup_folder/$backup_tar_name --directory=/mnt/gentoo --exclude=proc --exclude=sys --exclude=dev/pts . 
 	if [ $? -eq 0 ]; then
 		isExist=$(ls /mnt/backup/$backup_folder | grep "$backup_tar_name")
 		
@@ -211,7 +211,7 @@ case "$option" in
 	selected_file=$(ls | sed -n $which_file\p)
 	
 	echo "Restoriong backup tar.."
-	tar --xattrs -xvpf $selected_file -C /mnt/gentoo/
+	tar --xattrs -xpf $selected_file -C /mnt/gentoo/
 
 	if [ $? -eq 0 ]; then
 		
