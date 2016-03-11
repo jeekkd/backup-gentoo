@@ -41,14 +41,5 @@ sudo bash backup_gentoo.sh
 
 > **Note:**
 > 
-> - Unless your user is in the passwordless wheel group you will
-need to enter your password when prompted if you are doing
-a system restore.
-> - It is assumed this NOT a uefi system, it installs for a standard
-MBR / GBT, legacy boot system
-	- [Refer here for grub2 on uefi](https://wiki.gentoo.org/wiki/GRUB2#UEFI_with_GPT)
-> - If you want grub to use os-prober while it makes your grub.cfg
-you must install sys-boot/os-prober
-	- if you wish, add the below command in the emerge section of chroot_commands.sh
-	or emerge it before backup so it is automatically done everytime
-	emerge --ask ys-boot/os-prober
+> - Unless your user is in the passwordless wheel group you will need to enter 
+your password when prompted if you are doing a system restore.

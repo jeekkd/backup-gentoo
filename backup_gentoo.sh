@@ -2,7 +2,7 @@
 
 # Written by: https://github.com/turkgrb
 # Website: https://daulton.ca
-# Purpose: To make the backup and restoration of Gentoo systems easier, uses gunzipped
+# Purpose: To make the backup and restoration of Gentoo systems easier, uses bzipped
 # tars and can also handle GRUB installation too.
 # WARNING: BOOT TO SYSTEMRECSUECD TO USE
 
@@ -10,26 +10,18 @@
 
 # Backup storeage location, Ex: /dev/sdb2
 # Backup will be stored in root of the partition
-backup_target=
+backup_target=/dev/sdb2
 # Gentoos root location, ex: /dev/sda1
-root_backup_target=
-# Gentoos boot location, ex: /dev/sda2
-boot_backup_target=
-# Gentoos home location, ex: /dev/sda3
-home_backup_target=
+gentoo_backup_target=/dev/sdb1
 # The name for the backup folder that will be made
 backup_folder=gentoo_backups
 #
 ###### RESTORE SECTION ######
-#
-# Disk to install grub2 to, Ex: /dev/sda
-grub_disk=
-# The target drive for the root restoration, ex: /dev/sda1
-root_restore_target=
-# The target drive for the boot restoration, ex: /dev/sda2
-boot_restore_target=
-# The target drive for the home restoration, ex: /dev/sda3
-home_restore_target=
+# IF YOUR SYSTEM IS EFI AND WANT IT TO INSTALL GRUB AS SUCH DO NOT SET THIS VARIABLE. 
+# The disk to install grub2 to, Ex: /dev/sda
+grub_disk=/dev/sdb
+# The target drive for the restoration, ex: /dev/sda1
+gentoo_restore_target=/dev/sdb1
 #
 # The following variables don't NEED to be adjusted
 #
@@ -91,11 +83,11 @@ get_script_dir
 # mounted to it
 check_mount() {
 
-if mount | grep $backup_target || $root_backup_target || $root_restore_target > /dev/null; then
+if mount | grep $backup_target || $gentoo_backup_target || $gentoo_restore_target > /dev/null; then
 
 	echo "Directories found to be mounted, now unmounting so correct directory is now mounted..."
-    umount -f /mnt/backup
-    umount -f /mnt/gentoo
+    umount /mnt/backup
+    umount /mnt/gentoo
 fi
 	
 }
@@ -132,9 +124,7 @@ case "$option" in
 	check_mount
 	
 	echo "Mounting directories.."
-	mount $root_backup_target /mnt/gentoo 
-	mount $boot_backup_target /mnt/gentoo/boot
-	mount $home_backup_target /mnt/gentoo/home
+	mount $gentoo_backup_target /mnt/gentoo 
 	mount $backup_target /mnt/backup 
 
 	echo "Creating backup tar.. may take a while, please wait"
@@ -147,7 +137,7 @@ case "$option" in
 			echo "Error: Backup did not complete successfully. Does not exist"
 		else
 			echo "Backup exists.. now umounting file systems"
-			umount -vf /mnt/gentoo/boot /mnt/gentoo/home /mnt/gentoo /mnt/backup 
+			umount -v /mnt/gentoo /mnt/backup 
 		fi
 		
 	fi
@@ -156,19 +146,17 @@ case "$option" in
 ;;
 [Bb])
 
-	echo "This will restore your system onto $root_restore_target and install grub onto $grub_disk."
-	echo "Any data left on the partition will be overwritten by the restoration. Continue? Y or N."
+	echo "This will restore your system onto $gentoo_restore_target and install grub onto $grub_disk."
+	echo "Any data left on the partition will be overwritten by the restoration"
 	ask
 	
 	check_mount
 	
-	mkdir -v /mnt/gentoo/boot
-	mkdir -v /mnt/gentoo/home
+	echo "Formatting partition.."	
+	mkfs.ext4 $gentoo_restore_target
 	
 	echo "Mounting listed drives to correct mount points.."
-	mount -v $root_restore_target /mnt/gentoo 
-	mount -v $home_restore_target /mnt/gentoo/home
-	mount -v $boot_restore_target /mnt/gentoo/boot
+	mount -v $gentoo_restore_target /mnt/gentoo 
 	mount -v $backup_target /mnt/backup 
 	
 	echo "Making directories.."
@@ -222,10 +210,7 @@ case "$option" in
 		cp -v $script_dir/chroot_commands.sh /mnt/gentoo
 		chroot /mnt/gentoo ./chroot_commands.sh $grub_disk
 		
-		if [ $? -eq 0 ]; then
-			echo "Unmounting drives now.."
-			umount -vf /mnt/gentoo/boot /mnt/gentoo/home /mnt/gentoo /mnt/backup 
-		fi
+		umount -v /mnt/gentoo /mnt/backup 
 	fi
 	
 	echo "Complete.."
