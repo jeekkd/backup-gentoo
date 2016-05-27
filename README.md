@@ -19,7 +19,7 @@ It is heavily advised to use a live cd system such as SystemRescueCD
 to launch this script from, it is not wise to attempt to do a full
 system backup on a live system at least using tar backups.
 
-Do the following;
+Do the following -
 
 sudo chmod 770 backup_gentoo.sh chroot_commands.sh
 
@@ -42,4 +42,4 @@ sudo bash backup_gentoo.sh
 > **Note:**
 > 
 > - Unless your user is in the passwordless wheel group you will need to enter 
-your password when prompted if you are doing a system restore.
+your password when prompted when you are doing a system restore.
