@@ -19,7 +19,11 @@ It is heavily advised to use a live cd system such as SystemRescueCD
 to launch this script from, it is not wise to attempt to do a full
 system backup on a live system at least using tar backups.
 
-Do the following -
+To use this script you don't need to mount anything or be in a 
+chroot, etc. after setting the variables at the top it is ready 
+to be ran.
+
+Do the following:
 
 sudo chmod 770 backup_gentoo.sh chroot_commands.sh
 
@@ -27,7 +31,7 @@ This will make the script readable, writable, and executable to
 root and your user. Next, open the script in your text editor of 
 choice.
 
-geany backup_gentoo.sh
+gedit backup_gentoo.sh
 
 You need to edit the variables in the highlighted variables section 
 near the top. To find the information required use a ultility such 
@@ -36,7 +40,7 @@ as gparted, SystemRescueCD has this by default.
 Next, you will want to make sure you've saved and then launch the 
 script by doing the following;
 
-sudo bash backup_gentoo.sh
+bash backup_gentoo.sh
 
 
 > **Note:**

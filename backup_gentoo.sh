@@ -10,18 +10,18 @@
 
 # Backup storeage location, Ex: /dev/sdb2
 # Backup will be stored in root of the partition
-backup_target=/dev/sdb2
+backup_target=
 # Gentoos root location, ex: /dev/sda1
-gentoo_backup_target=/dev/sdb1
+gentoo_backup_target=
 # The name for the backup folder that will be made
 backup_folder=gentoo_backups
 #
 ###### RESTORE SECTION ######
 # IF YOUR SYSTEM IS EFI AND WANT IT TO INSTALL GRUB AS SUCH DO NOT SET THIS VARIABLE. 
 # The disk to install grub2 to, Ex: /dev/sda
-grub_disk=/dev/sdb
+grub_disk=
 # The target drive for the restoration, ex: /dev/sda1
-gentoo_restore_target=/dev/sdb1
+gentoo_restore_target=
 #
 # The following variables don't NEED to be adjusted
 #
