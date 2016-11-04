@@ -18,16 +18,21 @@ not wise to attempt to do a full system backup on a live system at least using t
 To use this script you don't need to mount anything or be in a chroot, etc. after setting the variables 
 at the top it is ready to be ran.
 
-- Do the following:
+- Lets get the source
+
+```
+git clone https://gitlab.com/huuteml/backup_gentoo.git && cd backup_gentoo
+```
+
+- This will make the script readable, writable, and executable to root and your user. 
 
 ```
 sudo chmod 770 backup_gentoo.sh chroot_commands.sh
 ```
 
-- This will make the script readable, writable, and executable to root and your user. Next, open the 
-script in your text editor of choice. You need to edit the variables in the highlighted variables section 
-near the top. To find the information  required use a ultility such as gparted, SystemRescueCD has this by 
-default.
+Next, open the script in your text editor of choice. You need to edit the variables in the highlighted 
+variables section near the top. To find the information  required use a ultility such as gparted, 
+SystemRescueCD has this by default.
 
 ```
 gedit backup_gentoo.sh
